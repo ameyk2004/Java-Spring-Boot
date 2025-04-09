@@ -121,7 +121,7 @@ mvnw <command>         # Windows
 
 ---
 
-## 3. Spring Framework & Spring Boot
+## 3. Spring Framework & Boot
 
 ---
 
