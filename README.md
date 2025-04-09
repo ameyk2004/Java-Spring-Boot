@@ -230,6 +230,99 @@ IoC is enabled in Spring using:
 | `@RestController`  | Controller that returns JSON/XML       |
 | `@Autowired`       | Injects dependencies automatically     |
 
+### 🧠 What is a Bean?
+
+In Spring, a **Bean** is simply an **object that is managed by the Spring IoC container**.
+
+Any class that you want Spring to manage (create, configure, and inject where needed) must be registered as a bean.
+
+Beans are the **core building blocks** of a Spring application — they are created, injected, and managed by the framework.
+
+---
+
+### 🔁 How are Beans created?
+
+There are **3 common ways** to define a Bean in Spring:
+
+1. Using `@Component` Annotation  
+2. Using `@Bean` Annotation inside a `@Configuration` class  
+3. XML Configuration (not common in Spring Boot)
+
+---
+
+### ✅ 1. Creating a Bean using `@Component`
+
+```java
+@Component
+public class MyBean {
+    public void sayHello() {
+        System.out.println("Hello from MyBean!");
+    }
+}
+```
+
+- This class will be automatically detected and registered as a Bean **if it's in a package scanned by Spring**.
+- Spring will create an instance of `MyBean` and manage it in the application context.
+
+---
+
+### ✅ 2. Injecting a Bean using `@Autowired`
+
+```java
+@Service
+public class MyService {
+
+    @Autowired
+    private MyBean myBean;
+
+    public void run() {
+        myBean.sayHello();
+    }
+}
+```
+
+- Here, Spring automatically injects the `MyBean` object into the `MyService` class.
+- This is **Dependency Injection** in action.
+
+---
+
+### ✅ 3. Defining a Bean using `@Bean` and `@Configuration`
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public MyBean myBean() {
+        return new MyBean();
+    }
+}
+```
+
+- This is useful when you want full control over how the bean is created (custom constructor, parameters, etc.).
+- Beans defined this way are also managed by the Spring container.
+
+---
+
+### 📦 Bean Lifecycle (Overview)
+
+1. **Creation**: Spring instantiates the bean.
+2. **Dependency Injection**: Injects required dependencies.
+3. **Initialization**: Optional custom init logic.
+4. **Ready to Use**: Bean is in use.
+5. **Destruction**: Called before the container is shut down.
+
+---
+
+### 📌 Summary
+
+| Concept          | Description                                           |
+|------------------|-------------------------------------------------------|
+| What is a Bean?  | An object managed by Spring’s IoC container           |
+| Annotations      | `@Component`, `@Service`, `@Repository`, `@Bean`      |
+| Injection        | Done using `@Autowired` or constructor injection      |
+| Config Location  | Automatically scanned or registered via `@Configuration` |
+
 ---
 
 
