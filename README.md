@@ -175,6 +175,64 @@ Modularity means **separating concerns** into focused, reusable units.
 
 ---
 
+## 4. Dependency Injection
+
+---
+
+### 4.1 What is Dependency Injection?
+
+Dependency Injection (DI) is a design pattern where **dependencies (objects)** are **injected into a class**, rather than the class creating them itself.
+
+In Spring Boot, DI helps in building **loosely coupled**, **testable**, and **maintainable** applications.
+
+For example:
+
+```java
+// Without DI
+UserService userService = new UserService(new UserRepository());
+
+// With DI
+@Autowired
+private UserService userService;
+```
+
+Spring takes care of creating and injecting the required beans into your class at runtime.
+
+### 4.2 Inversion of Control (IoC)
+
+IoC (Inversion of Control) is the principle behind DI.
+
+It means:
+>"You don't control object creation — Spring does."
+
+Instead of manually creating dependencies inside your code, you let the Spring IoC container handle it for you.
+
+>Traditional way: You call the object
+> 
+>IoC way: The framework gives you the object
+
+IoC is enabled in Spring using:
+
+- Annotations like @Component, @Service, @Repository, @Controller
+
+- @Autowired to inject the dependency
+
+- Spring Context / IoC Container
+
+#### Key Annotations
+
+| Annotation         | Purpose                                |
+|--------------------|----------------------------------------|
+| `@Component`       | Generic Spring-managed bean            |
+| `@Service`         | Marks a service layer class            |
+| `@Repository`      | Marks a DAO/repository layer class     |
+| `@Controller`      | Used in MVC controllers                |
+| `@RestController`  | Controller that returns JSON/XML       |
+| `@Autowired`       | Injects dependencies automatically     |
+
+---
+
+
 
 
 
