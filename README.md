@@ -325,7 +325,84 @@ public class AppConfig {
 
 ---
 
+## 🚀 @SpringBootApplication Annotation
 
+---
 
+### 🧩 What is `@SpringBootApplication`?
+
+`@SpringBootApplication` is a **convenience annotation** that combines **three core Spring annotations**:
+
+```java
+@Target(TYPE)
+@Retention(RUNTIME)
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan
+public @interface SpringBootApplication {
+}
+```
+
+So when you use `@SpringBootApplication`, you're really applying:
+
+| Annotation             | Purpose                                                                 |
+|------------------------|-------------------------------------------------------------------------|
+| `@SpringBootConfiguration` | Same as `@Configuration` → marks this as a config class for Spring Boot |
+| `@EnableAutoConfiguration` | Tells Spring Boot to automatically configure your app based on the dependencies present |
+| `@ComponentScan`           | Scans the current package and sub-packages for Spring components like `@Component`, `@Service`, `@Repository`, `@Controller` |
+
+---
+
+### 🧠 How It Works Internally
+
+1. **`@SpringBootConfiguration`**
+   - Extends `@Configuration`, which marks the class as a source of bean definitions.
+   - It registers beans in the Spring Application Context.
+
+2. **`@EnableAutoConfiguration`**
+   - Automatically configures Spring components based on the libraries present in the classpath.
+   - Example: If Spring Web dependency is present, it configures a Tomcat server automatically.
+   - Uses `spring.factories` to load configuration classes dynamically.
+
+3. **`@ComponentScan`**
+   - Scans the current package (and sub-packages) for any class annotated with `@Component`, `@Service`, `@Repository`, or `@Controller`, and registers them as beans.
+
+---
+
+### 🔁 Typical Usage Example
+
+```java
+@SpringBootApplication
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+```
+
+- `SpringApplication.run()` boots up the application:
+   - Starts embedded server (Tomcat/Jetty)
+   - Initializes Spring context
+   - Performs dependency injection
+   - Configures beans
+
+---
+
+### ✅ Best Practices
+
+- Place your `@SpringBootApplication` main class at the **top-level package** to ensure component scanning covers your entire project structure.
+- Avoid placing beans in sibling or parent packages unless explicitly configured via `@ComponentScan(basePackages = "com.example")`.
+
+---
+
+### 📌 Summary
+
+| Part of `@SpringBootApplication` | Role |
+|----------------------------------|------|
+| `@SpringBootConfiguration`       | Registers beans and app config |
+| `@EnableAutoConfiguration`       | Enables automatic setup based on dependencies |
+| `@ComponentScan`                 | Detects and registers Spring components automatically |
+
+---
 
 
