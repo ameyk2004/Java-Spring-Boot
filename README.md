@@ -11,9 +11,7 @@ Welcome to my learning notes for Spring Boot based on the [Devtiro YouTube tutor
 3. [Spring Framework & Boot](#3-spring-framework--boot)
 4. [Dependency Injection](#4-dependency-injection)
 5. [Configuration](#5-configuration)
-6. [Databases Part 1 - Basics](#6-databases-part-1---basics)
-7. [Databases Part 2 - Spring JDBC](#7-databases-part-2---spring-jdbc)
-8. [Databases Part 3 - Spring Data JPA](#8-databases-part-3---spring-data-jpa)
+6. [Spring Data JPA - PostgreSQL](#spring-data-jpa)
 9. [Jackson & JSON](#9-jackson--json)
 10. [Building a REST API](#10-building-a-rest-api)
 11. [Deployment to AWS LightSail](#11-deployment-to-aws-lightsail)
@@ -644,3 +642,184 @@ public class ProductController {
 - `@RequestParam`: Query string data
 
 ---
+
+## Spring Data JPA
+---
+
+### 🔹 1. **JDBC (Java Database Connectivity)**
+
+**JDBC** is the base-level API for interacting with relational databases using Java. It requires:
+
+- Establishing a `Connection`
+- Writing SQL queries manually
+- Executing SQL using `Statement` or `PreparedStatement`
+- Iterating over `ResultSet`
+- Mapping DB rows to Java objects yourself
+
+#### 👎 Drawbacks of JDBC:
+
+- Lots of boilerplate code
+- Manual error handling
+- Difficult to maintain
+- Not scalable for large applications
+
+#### 🔧 JDBC Example:
+
+```java
+Connection conn = DriverManager.getConnection(url, user, password);
+PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
+stmt.setInt(1, 1);
+ResultSet rs = stmt.executeQuery();
+
+if (rs.next()) {
+    User user = new User();
+    user.setId(rs.getInt("id"));
+    user.setName(rs.getString("name"));
+    // ...
+}
+```
+
+---
+
+### 🔹 2. **JPA (Java Persistence API)**
+
+**JPA** is a **specification** (not a library) that defines how Java objects should map to relational database tables.
+
+✅ JPA provides:
+
+- **Annotations** like `@Entity`, `@Id`, `@OneToMany`, etc.
+- **EntityManager API** to manage objects and queries
+- **JPQL (Java Persistence Query Language)** for object-based queries
+
+❗️JPA is just an interface — it needs a  **(implementation)** like **Hibernate** to actually work.
+
+---
+
+### 🔹 3. **Hibernate (JPA Implementation)**
+
+**Hibernate** is the most widely used JPA provider.
+
+It handles:
+
+- SQL generation
+- Object-relational mapping (ORM)
+- Caching
+- Lazy/eager loading
+- Transaction management
+
+With Hibernate, we no longer write boilerplate SQL. Instead, we define entities and let Hibernate manage them.
+
+#### 🧾 Entity Example:
+
+```java
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private String email;
+}
+```
+
+#### 🎯 Hibernate does the magic:
+
+- Maps table to entity
+- Converts SQL results to objects
+- Handles insert/update/delete automatically
+
+---
+
+### 🔹 4. **Spring Data JPA (Abstraction over JPA + Hibernate)**
+
+Spring Data JPA builds on top of JPA and Hibernate to **simplify the data access layer** even more. It reduces boilerplate code by:
+
+- Automatically creating implementations for DAOs
+- Providing CRUD functionality out of the box
+- Integrating pagination, sorting, and custom queries easily
+
+#### 📘 Key Interfaces:
+
+- `JpaRepository<T, ID>` → includes `CrudRepository`, `PagingAndSortingRepository`
+- `@Repository` → marks your DAO interface
+- `@Transactional` → handles transactions
+
+#### 🧩 Example:
+
+```java
+@Entity
+public class User {
+    @Id @GeneratedValue
+    private Long id;
+    private String name;
+    private String email;
+}
+```
+
+```java
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByName(String name);
+}
+```
+
+Now you can use `userRepository.findAll()`, `save()`, `deleteById()`, and even custom methods like `findByName()` — **without writing any implementation**.
+
+Spring handles it through **Spring Data JPA** + **Hibernate** under the hood.
+
+---
+
+## 🧠 Flow of Execution
+
+```
+Your Service Class
+       ↓
+UserRepository (interface)
+       ↓
+Spring Data JPA (auto implementation)
+       ↓
+JPA Specification (via Hibernate)
+       ↓
+SQL generated & executed
+       ↓
+Data returned as Java Objects
+```
+
+---
+
+## 🔄 Comparison Summary
+
+| Approach        | Pros                           | Cons                              |
+| --------------- | ------------------------------ | --------------------------------- |
+| JDBC            | Full control                   | Too much boilerplate              |
+| JPA + Hibernate | Reduces SQL writing, clean ORM | Still needs `EntityManager` setup |
+| Spring Data JPA | Extremely easy & powerful      | Less control over SQL sometimes   |
+
+---
+
+### Spring Data JPA example
+
+#### Dependencies
+- Postgres Driver
+- Spring Web
+- Spring Data JPA
+
+`application.properties` File
+```plaintext
+spring.datasource.url=jdbc:postgresql://localhost:5432/hibernate_db
+spring.datasource.username=postgres
+spring.datasource.password=Amey1234
+
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=true
+
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.format_sql=true
+```
+
+ER Diagram of Project
+
+<img src="resources/er_diagram.png">
+
