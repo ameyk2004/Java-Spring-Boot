@@ -405,4 +405,107 @@ public class MyApplication {
 
 ---
 
+## application.properties & Environment Variables
 
+---
+
+### 📁 What is `application.properties`?
+
+Spring Boot uses `application.properties` (or `application.yml`) as the **default configuration file** for your application.  
+It is located in the `src/main/resources/` directory.
+
+You can use it to define:
+
+- Server configuration
+- Database URLs and credentials
+- Logging level
+- Custom key-value properties
+- Any other Spring/Spring Boot settings
+
+---
+
+### ✅ Common Examples
+
+```properties
+# Server config
+server.port=8081
+
+# Database
+spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+spring.datasource.username=root
+spring.datasource.password=admin
+
+# JPA / Hibernate
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+
+# Logging
+logging.level.org.springframework=INFO
+```
+
+---
+
+### 🌍 Environment Variables in Spring Boot
+
+Spring Boot supports **external configuration** using environment variables. This allows you to **override properties** defined in `application.properties`.
+
+✅ Useful in:
+- Deployment (e.g., Docker, cloud)
+- Securing sensitive data (like DB credentials)
+
+---
+
+### 🔄 Precedence (Property Loading Order)
+
+Spring Boot resolves properties in the following order (higher overrides lower):
+
+1. Command-line arguments
+2. Environment variables
+3. `application.properties` / `application.yml`
+4. Default values in the code
+
+---
+
+### 🧠 Using Environment Variables in `application.properties`
+
+You can reference environment variables inside the properties file:
+
+```properties
+spring.datasource.username=${DB_USER}
+spring.datasource.password=${DB_PASS}
+```
+
+At runtime, Spring Boot replaces `${DB_USER}` and `${DB_PASS}` with the actual environment variable values.
+
+---
+
+### 🛠️ Accessing Properties in Code
+
+```java
+@Value("${custom.message}")
+private String message;
+```
+
+Or using `Environment`:
+
+```java
+@Autowired
+Environment env;
+
+public void printEnvValue() {
+    System.out.println(env.getProperty("custom.message"));
+}
+```
+
+---
+
+### 📌 Summary
+
+| Concept                  | Purpose                                   |
+|--------------------------|-------------------------------------------|
+| `application.properties` | Central config file for Spring Boot apps  |
+| Environment Variables     | Override config externally (secure/flexible) |
+| `${VAR_NAME}` syntax      | Inject environment variables into config   |
+| `@Value`, `Environment`   | Access config values inside Java classes  |
+
+---
