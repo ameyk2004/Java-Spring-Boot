@@ -119,6 +119,61 @@ mvnw <command>         # Windows
 | `./mvnw site`          | Generates an HTML project site           |
 | `./mvnw spring-boot:run` | Runs your Spring Boot app (via plugin) |
 
+---
+
+## 3. Spring Framework & Spring Boot
+
+---
+
+### 3.1 Spring Framework vs Spring Boot
+
+| Feature                | Spring Framework                           | Spring Boot                                      |
+|------------------------|---------------------------------------------|--------------------------------------------------|
+| **Setup**             | Manual setup, lots of XML or Java config   | Auto-configured, minimal setup                   |
+| **Dependency Handling** | You manage everything via `pom.xml`       | Smart defaults & starter dependencies            |
+| **Web Server**         | Requires external server (Tomcat, Jetty)  | Embedded server (Tomcat by default)              |
+| **Boilerplate Code**   | High                                       | Minimal                                           |
+| **Learning Curve**     | Steep                                      | Easier for beginners                             |
+
+✅ Spring Boot is built **on top of** Spring Framework, and it simplifies development by handling the tedious parts for you.
+
+---
+
+### 3.2 Spring Application Layers
+
+Spring encourages a **layered architecture** for building maintainable applications:
+
+<img src="https://files.codingninjas.in/article_images/spring-boot-architecture-0-1640757816.webp">
+
+**How they work:**
+- The **Controller** delegates to the **Service**.
+- The **Service** talks to the **Repository**.
+- Each layer is loosely coupled and testable.
+
+📌 Annotations you'll see:
+- `@RestController` – for the Controller layer
+- `@Service` – for the Service layer
+- `@Repository` – for the Repository/DAO layer
+
+---
+
+### 3.3 Modularity
+
+Modularity means **separating concerns** into focused, reusable units.
+
+✅ In Spring Boot:
+- Each class handles one specific responsibility.
+- The structure supports **clean code** & **independent testing**.
+
+🧱 You can also create **separate packages or modules** for:
+- Authentication
+- Payments
+- User Profiles
+- etc.
+
+> Think of your app as a group of LEGO blocks 🧱 — easy to build, easy to modify.
+
+---
 
 
 
