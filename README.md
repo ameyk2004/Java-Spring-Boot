@@ -82,3 +82,44 @@ Or run from terminal:
 ```
 
 Visit http://localhost:8080 — empty for now, but app is live!
+
+---
+
+## 2. Maven Basics
+
+Maven is the **build tool** used in most Spring Boot projects. It handles:
+
+- Project dependencies (`pom.xml`)
+- Building and packaging the app
+- Running the app
+- Generating reports, etc.
+
+---
+
+### 🧰 What is `mvnw`?
+
+- `mvnw` stands for **Maven Wrapper**.
+- Allows you to run Maven **without installing it globally**.
+- Ensures your project uses the correct Maven version.
+
+✅ Use this instead of `mvn`:
+```bash
+./mvnw <command>       # Unix/macOS
+mvnw <command>         # Windows
+```
+
+### ⚙️ Common Maven Commands
+
+| Command                 | Description                              |
+|------------------------|------------------------------------------|
+| `./mvnw clean`         | Cleans the `/target` directory           |
+| `./mvnw package`       | Builds the app & creates a `.jar` file   |
+| `./mvnw install`       | Builds & installs the app to local repo  |
+| `./mvnw verify`        | Runs all checks/tests before build       |
+| `./mvnw site`          | Generates an HTML project site           |
+| `./mvnw spring-boot:run` | Runs your Spring Boot app (via plugin) |
+
+
+
+
+
