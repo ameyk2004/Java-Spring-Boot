@@ -509,3 +509,138 @@ public void printEnvValue() {
 | `@Value`, `Environment`   | Access config values inside Java classes  |
 
 ---
+
+## 🌐 REST API in Spring Boot
+
+---
+
+### 📌 What is a REST API?
+
+REST (Representational State Transfer) is an **architecture style** for designing networked applications. A REST API uses **HTTP methods** (GET, POST, PUT, DELETE) to interact with resources identified by **URLs**.
+
+---
+
+### 🧩 Key Concepts
+
+| HTTP Method | Purpose           | Example                      |
+|-------------|-------------------|------------------------------|
+| GET         | Read data         | `/api/products`              |
+| POST        | Create new data   | `/api/products`              |
+| PUT         | Update existing   | `/api/products/1`            |
+| DELETE      | Delete data       | `/api/products/1`            |
+
+---
+
+### 🧱 REST Annotations in Spring Boot
+
+#### 📍 `@RestController`
+- Combines `@Controller` and `@ResponseBody`
+- Automatically returns JSON/XML
+```java
+@RestController
+public class ProductController { }
+```
+
+#### 🔗 `@RequestMapping`
+- Maps HTTP requests to handler methods or class level paths.
+```java
+@RequestMapping("/api/products")
+```
+
+#### 📥 `@GetMapping`
+- Used to handle GET requests
+```java
+@GetMapping("/")
+public List<Product> getAll() { ... }
+```
+
+#### ➕ `@PostMapping`
+- Used to handle POST requests
+```java
+@PostMapping("/")
+public Product create(@RequestBody Product p) { ... }
+```
+
+#### 📝 `@PutMapping`
+- Used to handle PUT requests
+```java
+@PutMapping("/{id}")
+public Product update(@PathVariable int id, @RequestBody Product p) { ... }
+```
+
+#### ❌ `@DeleteMapping`
+- Used to handle DELETE requests
+```java
+@DeleteMapping("/{id}")
+public void delete(@PathVariable int id) { ... }
+```
+
+---
+
+### 🔑 `@PathVariable`
+
+Used to extract values from the **URL path**.
+
+```java
+@GetMapping("/{id}")
+public Product getById(@PathVariable int id) {
+    return productService.findById(id);
+}
+```
+
+---
+
+### ❓ `@RequestParam` (Query Parameters)
+
+Used to extract values from **URL query strings**.
+
+```java
+@GetMapping("/search")
+public List<Product> searchByName(@RequestParam String name) {
+    return productService.findByName(name);
+}
+```
+
+**Example URL:**  
+`GET /api/products/search?name=shoes`
+
+---
+
+### ✅ Example Controller
+
+```java
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+
+    @GetMapping
+    public List<Product> getAll() { ... }
+
+    @GetMapping("/{id}")
+    public Product getById(@PathVariable int id) { ... }
+
+    @PostMapping
+    public Product create(@RequestBody Product p) { ... }
+
+    @PutMapping("/{id}")
+    public Product update(@PathVariable int id, @RequestBody Product p) { ... }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) { ... }
+
+    @GetMapping("/search")
+    public List<Product> search(@RequestParam String name) { ... }
+}
+```
+
+---
+
+### 🧠 Summary
+
+- `@RestController`: REST-style JSON API
+- `@RequestMapping`: Base path
+- HTTP Methods: `GET`, `POST`, `PUT`, `DELETE`
+- `@PathVariable`: Dynamic parts of URL
+- `@RequestParam`: Query string data
+
+---
