@@ -823,3 +823,115 @@ ER Diagram of Project
 
 <img src="resources/er_diagram.png">
 
+Here’s a detailed explanation of the annotations and concepts: `@Entity`, `@Id`, `@GeneratedValue`, and `@SequenceGenerator` — used in JPA and Spring Data JPA.
+
+---
+
+## JPA Entity Annotations
+
+---
+
+### 🔹 `@Entity`
+Marks a Java class as a **JPA Entity** that should be mapped to a database table.
+
+```java
+@Entity
+public class User {
+    ...
+}
+```
+
+By default, the class name becomes the table name (`User` → `user`), and fields become columns.
+
+---
+
+### 🔹 `@Id`
+Defines the **primary key** of the entity.
+
+```java
+@Id
+private Long id;
+```
+
+This field must be unique for each row and is used to identify the entity.
+
+---
+
+### 🔹 `@GeneratedValue`
+Specifies the **strategy** used for generating primary key values.
+
+```java
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+private Long id;
+```
+
+#### Common Strategies:
+
+| Strategy              | Description |
+|-----------------------|-------------|
+| `AUTO`                | Let the JPA provider (Hibernate) decide |
+| `IDENTITY`            | Uses DB auto-increment column |
+| `SEQUENCE`            | Uses a DB sequence (mostly PostgreSQL) |
+| `TABLE`               | Uses a table to generate identifiers |
+
+---
+
+### 🔹 `@SequenceGenerator`
+Used with `SEQUENCE` strategy to define a custom database sequence.
+
+```java
+@Entity
+public class User {
+
+    @Id
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "user_seq"
+    )
+    @SequenceGenerator(
+        name = "user_seq",
+        sequenceName = "user_sequence",
+        allocationSize = 1
+    )
+    private Long id;
+
+    private String name;
+}
+```
+
+#### Parameters:
+
+| Parameter        | Description |
+|------------------|-------------|
+| `name`           | Name used in `@GeneratedValue(generator = "…")` |
+| `sequenceName`   | Actual DB sequence name |
+
+---
+
+## Example: Complete Entity with Sequence Generator
+
+```java
+@Entity
+public class Product {
+
+    @Id
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "product_seq"
+    )
+    @SequenceGenerator(
+        name = "product_seq",
+        sequenceName = "product_sequence",
+        allocationSize = 1
+    )
+    private Long id;
+
+    private String name;
+    private Double price;
+
+    // Getters and Setters
+}
+```
+
+<img src="resources/hibernate_lifecycle.png">
