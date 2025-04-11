@@ -973,3 +973,35 @@ Helps the `DispatcherServlet` determine which controller method should handle th
 5. ViewResolver finds the appropriate view.
 6. View renders the response using the model data.
 7. DispatcherServlet returns the final response to the client.
+
+---
+
+# Spring Security
+
+**Spring Security** is a comprehensive and customizable framework for handling **security concerns** in Java-based applications—particularly those built using **Spring Boot**.
+
+It primarily helps with:
+
+- 🔑 **Authentication** – Validating user identity.
+- 🔒 **Authorization** – Granting access to specific parts of the application.
+- 🛡️  Against common vulnerabilities like CSRF, XSS, session fixation, etc.
+
+Spring Security acts as the **security backbone** of enterprise-level apps by plugging into the Spring lifecycle and managing all security-related configurations declaratively or programmatically.
+
+---
+
+## Why Spring Security is Needed
+
+Without a strong security layer:
+
+- Applications are vulnerable to unauthorized access and data breaches.
+- Security rules become hard to manage and test.
+- Developers often re-implement critical security features incorrectly.
+
+Spring Security centralizes and simplifies this by:
+
+- Enforcing security **standards by default**.
+- Providing tools for **custom rules and policies**.
+- Supporting **industry practices** like form-based login, HTTP Basic, OAuth2, and JWT.
+
+---
