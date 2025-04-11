@@ -94,19 +94,19 @@ Maven is the **build tool** used in most Spring Boot projects. It handles:
 
 ---
 
-### 🧰 What is `mvnw`?
+### What is `mvnw`?
 
 - `mvnw` stands for **Maven Wrapper**.
 - Allows you to run Maven **without installing it globally**.
 - Ensures your project uses the correct Maven version.
 
-✅ Use this instead of `mvn`:
+Use this instead of `mvn`:
 ```bash
 ./mvnw <command>       # Unix/macOS
 mvnw <command>         # Windows
 ```
 
-### ⚙️ Common Maven Commands
+### Common Maven Commands
 
 | Command                 | Description                              |
 |------------------------|------------------------------------------|
@@ -935,3 +935,41 @@ public class Product {
 ```
 
 <img src="resources/hibernate_lifecycle.png">
+
+
+# Spring MVC Architecture
+
+<img src = "https://terasolunaorg.github.io/guideline/1.0.1.RELEASE/en/_images/RequestLifecycle.png">
+
+# 🌱 Spring MVC Architecture
+
+Spring MVC follows the **Model-View-Controller** design pattern to build web applications in a structured and maintainable way. Here's how each component works:
+
+### 🔹 DispatcherServlet
+Acts as the **front controller**. It handles all incoming HTTP requests and coordinates with other components like controllers, view resolvers, and model objects.
+
+### 🔹 Controller
+Receives requests from the `DispatcherServlet`, processes them (usually with help from a service layer), and returns a logical view name along with data (the model).
+
+### 🔹 Model
+Holds the data that needs to be displayed in the view. It’s populated by the controller and passed to the view for rendering.
+
+### 🔹 View
+The user interface part of the application (like JSP or Thymeleaf). It takes the model data and renders the final HTML response.
+
+### 🔹 ViewResolver
+Maps the logical view name (provided by the controller) to an actual view file for rendering.
+
+### 🔹 HandlerMapping
+Helps the `DispatcherServlet` determine which controller method should handle the incoming request.
+
+---
+
+### 🔁 Workflow Summary
+1. Client sends a request.
+2. DispatcherServlet intercepts it.
+3. HandlerMapping finds the correct controller.
+4. Controller processes the request and prepares data (Model).
+5. ViewResolver finds the appropriate view.
+6. View renders the response using the model data.
+7. DispatcherServlet returns the final response to the client.
