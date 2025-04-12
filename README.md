@@ -1118,3 +1118,37 @@ public class MyUserDetailsService implements UserDetailsService {
 ```
 
 ---
+
+🐳 What is Docker?
+
+**Docker** is a platform that lets you **build, ship, and run applications** inside isolated environments called **containers**. It ensures consistency across development, testing, and production.
+
+- Lightweight & fast
+- Eliminates "it works on my machine"
+- Ideal for microservices and CI/CD pipelines
+
+---
+
+## Docker vs Virtual Machines
+
+| Feature      | Docker              | Virtual Machines       |
+| ------------ | ------------------- | ---------------------- |
+| OS Overhead  | Shares host OS      | Runs full guest OS     |
+| Startup Time | Seconds             | Minutes                |
+| Performance  | Faster, lightweight | Slower, resource-heavy |
+| Portability  | Very portable       | Less portable          |
+
+---
+
+## Docker Components
+
+| Component      | Description                                                                                                                                                |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Image**      | A lightweight, standalone, executable package of software that includes everything needed to run it (code, runtime, libraries). Think of it as a template. |
+| **Container**  | A running instance of a Docker image. It is isolated and has its own filesystem, processes, etc.                                                           |
+| **Dockerfile** | A text file with instructions to build a Docker image. It defines how the image is built.                                                                  |
+| **Docker Hub** | A cloud-based registry where Docker images are stored and shared.                                                                                          |
+| **Volume**     | Used for persistent storage, allowing data to be shared between the container and the host.                                                                |
+| **Network**    | Allows containers to communicate with each other or with the outside world.                                                                                |
+
+---
