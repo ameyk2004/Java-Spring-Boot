@@ -1051,30 +1051,70 @@ Here's the `.md` formatted explanation of your Spring Security config code, with
 Below is a simple `SecurityConfig` class that sets up Spring Security using Java-based configuration.
 
 ```java
-@Configuration  // Indicates this class provides Spring bean definitions
-@EnableWebSecurity  // Enables Spring Security for the app
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable());
 
-        // 🔓 Disable CSRF protection - usually for REST APIs (stateless)
-        http.csrf(customiser -> customiser.disable());
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/jobPosts/**").authenticated()
+                .requestMatchers("/tech/**").authenticated()
+                .requestMatchers("/manager/**").authenticated()
+                .anyRequest().permitAll() // optionally make all other routes open
+        );
 
-        // ✅ Require authentication for all requests
-        http.authorizeHttpRequests(requests -> requests.anyRequest().authenticated());
-
-        // 🔑 Enable HTTP Basic Authentication (username & password via header)
         http.httpBasic(Customizer.withDefaults());
-
-        // 🛑 Set session policy to STATELESS - server does not store session info
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        return http.build();
+    }
 
-        return http.build(); // Build the security filter chain
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(new BCryptPasswordEncoder(12)); // Replace in prod
+        return provider;
+    }
+}
+```
+
+### Custom Implimentation for User Service
+
+```java
+@Service
+public class MyUserDetailsService implements UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public MyUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Autowired
+    private BCryptPasswordEncoder encoder=new BCryptPasswordEncoder(12);
+
+    public User saveUser(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        System.out.println(user.getPassword());
+        return userRepository.save(user) ;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not Found");
+        }
+        return new UserPrincipal(user);
     }
 }
 ```
 
 ---
-
-This config is ideal for **stateless REST APIs** where authentication is handled per request (e.g., with JWTs or Basic Auth), and there's **no session storage** on the server.
