@@ -1005,3 +1005,39 @@ Spring Security centralizes and simplifies this by:
 - Supporting **industry practices** like form-based login, HTTP Basic, OAuth2, and JWT.
 
 ---
+## 🔁 Spring Security Filters
+
+Spring Security uses a **filter chain** to process incoming requests. Each filter in the chain performs a specific task (like authentication or CSRF protection) before allowing access to the endpoint.
+
+Key filters include:
+
+| Filter Name                      | Purpose                                                                 |
+|----------------------------------|-------------------------------------------------------------------------|
+| `SecurityContextPersistenceFilter` | Manages the `SecurityContext` (auth info) across requests.              |
+| `UsernamePasswordAuthenticationFilter` | Handles form-based login authentication.                            |
+| `BasicAuthenticationFilter`     | Handles HTTP Basic Authentication.                                     |
+| `CsrfFilter`                    | Checks for CSRF tokens on state-changing requests (POST, PUT, DELETE). |
+| `ExceptionTranslationFilter`   | Translates security exceptions into appropriate HTTP responses.        |
+| `FilterSecurityInterceptor`    | The last filter that enforces access-control decisions.                |
+
+---
+
+## CSRF (Cross-Site Request Forgery)
+
+**CSRF** is a type of attack where unauthorized commands are transmitted from a user that a web app trusts.
+
+### Why is CSRF important?
+
+Without protection:
+- Malicious websites could trigger requests (like money transfers) using your session.
+- The app cannot distinguish between **intentional** and **forged** requests.
+
+Spring Security protects against CSRF by:
+- Generating a unique **CSRF token** per session.
+- Validating it for every unsafe request (POST, PUT, DELETE).
+
+### When can CSRF be disabled?
+- In stateless apps (like REST APIs using JWTs).
+- When requests come only from trusted sources.
+
+---
