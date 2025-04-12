@@ -1041,3 +1041,40 @@ Spring Security protects against CSRF by:
 - When requests come only from trusted sources.
 
 ---
+
+Here's the `.md` formatted explanation of your Spring Security config code, with inline comments and proper breakdown:
+
+---
+
+## 🔐 Spring Security Configuration Explained
+
+Below is a simple `SecurityConfig` class that sets up Spring Security using Java-based configuration.
+
+```java
+@Configuration  // Indicates this class provides Spring bean definitions
+@EnableWebSecurity  // Enables Spring Security for the app
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        // 🔓 Disable CSRF protection - usually for REST APIs (stateless)
+        http.csrf(customiser -> customiser.disable());
+
+        // ✅ Require authentication for all requests
+        http.authorizeHttpRequests(requests -> requests.anyRequest().authenticated());
+
+        // 🔑 Enable HTTP Basic Authentication (username & password via header)
+        http.httpBasic(Customizer.withDefaults());
+
+        // 🛑 Set session policy to STATELESS - server does not store session info
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        return http.build(); // Build the security filter chain
+    }
+}
+```
+
+---
+
+This config is ideal for **stateless REST APIs** where authentication is handled per request (e.g., with JWTs or Basic Auth), and there's **no session storage** on the server.
