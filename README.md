@@ -1152,3 +1152,25 @@ public class MyUserDetailsService implements UserDetailsService {
 | **Network**    | Allows containers to communicate with each other or with the outside world.                                                                                |
 
 ---
+
+## 🧰 Common Docker Commands
+
+| Command | Description |
+|--------|-------------|
+| `docker --version` | Check Docker version installed on your machine |
+| `docker build -t <name>:<tag> .` | Build a Docker image from a Dockerfile in the current directory |
+| `docker images` | List all Docker images on your system |
+| `docker run <image>` | Run a container from an image |
+| `docker run -d <image>` | Run a container in detached (background) mode |
+| `docker run -p 8080:8080 <image>` | Run and expose container port 8080 to host port 8080 |
+| `docker ps` | Show running containers |
+| `docker ps -a` | Show all containers (including stopped ones) |
+| `docker stop <container_id>` | Stop a running container |
+| `docker rm <container_id>` | Remove a container |
+| `docker rmi <image_id>` | Remove a Docker image |
+| `docker exec -it <container_id> bash` | Access a running container’s shell |
+| `docker logs <container_id>` | View logs from a running container |
+| `docker pull <image>` | Download an image from Docker Hub |
+| `docker push <image>` | Upload an image to Docker Hub |
+
+---
