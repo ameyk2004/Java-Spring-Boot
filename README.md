@@ -1174,3 +1174,5 @@ public class MyUserDetailsService implements UserDetailsService {
 | `docker push <image>` | Upload an image to Docker Hub |
 
 ---
+
+# Docker with Postgres App
